@@ -28,6 +28,43 @@
             margin-bottom: 20px;
             padding-top: 4px;
         }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .lang-switch {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 3px;
+            display: flex;
+            gap: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .lang-switch button {
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.4);
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .lang-switch button.active {
+            background: #81c784;
+            color: #1a2f1d;
+            box-shadow: 0 2px 8px rgba(129, 199, 132, 0.3);
+        }
+        .lang-switch button:active {
+            transform: scale(0.92);
+        }
         .header h1 {
             font-size: 22px;
             font-weight: 700;
@@ -380,41 +417,118 @@
 </head>
 <body>
 
+    <!-- ШАПКА С ПЕРЕКЛЮЧАТЕЛЕМ ЯЗЫКА -->
     <div class="header">
-        <h1>
-            <span class="hunt">Hunt</span><span class="gift">Gift</span>
-            <span class="online"></span>
-            <span class="counter" id="onlineCounter">17</span>
-        </h1>
+        <div class="header-left">
+            <div class="lang-switch" id="langSwitch">
+                <button class="active" data-lang="ru" onclick="setLang('ru')">RU</button>
+                <button data-lang="en" onclick="setLang('en')">EN</button>
+            </div>
+            <h1>
+                <span class="hunt">Hunt</span><span class="gift">Gift</span>
+                <span class="online"></span>
+                <span class="counter" id="onlineCounter">17</span>
+            </h1>
+        </div>
         <div class="balance" onclick="buyStars()">
             ⭐ <span id="starDisplay">0</span>
         </div>
     </div>
 
+    <!-- ПОИСК -->
     <div class="search">
         <span class="search-icon">🔍</span>
         <input type="text" id="searchInput" placeholder="Поиск NFT по названию" oninput="filterGifts()">
     </div>
 
+    <!-- ВКЛАДКИ -->
     <div class="tabs">
-        <button class="active" onclick="switchTab('rent')">Аренда</button>
-        <button onclick="switchTab('buy')">Покупка</button>
+        <button class="active" id="tabRent" onclick="switchTab('rent')">Аренда</button>
+        <button id="tabBuy" onclick="switchTab('buy')">Покупка</button>
     </div>
 
+    <!-- КОНТЕЙНЕР -->
     <div class="gift-grid" id="giftList"></div>
 
+    <!-- МОДАЛКА -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">✕</button>
-            <h2>🔒 Аренда</h2>
+            <h2 id="modalTitle">🔒 Аренда</h2>
             <div class="subtitle" id="modalDesc">Gift: Snoop Dogg</div>
             <input type="text" id="telegramInput" placeholder="@username">
-            <button class="btn" onclick="sendOrder()">📩 Отправить заявку</button>
-            <div class="hint">Менеджер свяжется в течение 10 минут</div>
+            <button class="btn" id="modalBtn" onclick="sendOrder()">📩 Отправить заявку</button>
+            <div class="hint" id="modalHint">Менеджер свяжется в течение 10 минут</div>
         </div>
     </div>
 
     <script>
+        // ====== ЯЗЫКИ ======
+        const langData = {
+            ru: {
+                search: "Поиск NFT по названию",
+                rent: "Аренда",
+                buy: "Покупка",
+                rentTitle: "🔒 Аренда",
+                rentDesc: "Gift: ",
+                rentPlaceholder: "@username",
+                rentBtn: "📩 Отправить заявку",
+                rentHint: "Менеджер свяжется в течение 10 минут",
+                buyEmpty: "🛒",
+                buyText: "Покупка пока недоступна",
+                buySub: "Скоро здесь появятся NFT для покупки",
+                notFound: "🔍",
+                notFoundText: "Ничего не найдено",
+                notFoundSub: "Попробуйте изменить запрос",
+                nftLabel: "⭐ NFT",
+                rentAction: "Арендовать",
+                starsAlert: "⭐ Пополнение баланса\n\nОтправьте 50+ звёзд боту @huntgift_bot\n\nПосле зачисления напишите @huntgift_support"
+            },
+            en: {
+                search: "Search NFT by name",
+                rent: "Rent",
+                buy: "Buy",
+                rentTitle: "🔒 Rent",
+                rentDesc: "Gift: ",
+                rentPlaceholder: "@username",
+                rentBtn: "📩 Send request",
+                rentHint: "Manager will contact you within 10 minutes",
+                buyEmpty: "🛒",
+                buyText: "Purchase is not available yet",
+                buySub: "NFTs for purchase will appear here soon",
+                notFound: "🔍",
+                notFoundText: "Nothing found",
+                notFoundSub: "Try changing your search query",
+                nftLabel: "⭐ NFT",
+                rentAction: "Rent",
+                starsAlert: "⭐ Balance top-up\n\nSend 50+ stars to bot @huntgift_bot\n\nAfter crediting, write to @huntgift_support"
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function setLang(lang) {
+            currentLang = lang;
+            // Обновляем активную кнопку
+            document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-switch button[data-lang="${lang}"]`).classList.add('active');
+
+            // Обновляем тексты
+            const data = langData[lang];
+            document.getElementById('searchInput').placeholder = data.search;
+            document.getElementById('tabRent').textContent = data.rent;
+            document.getElementById('tabBuy').textContent = data.buy;
+            document.getElementById('modalTitle').textContent = data.rentTitle;
+            document.getElementById('modalDesc').textContent = data.rentDesc + currentItem;
+            document.getElementById('telegramInput').placeholder = data.rentPlaceholder;
+            document.getElementById('modalBtn').textContent = data.rentBtn;
+            document.getElementById('modalHint').textContent = data.rentHint;
+
+            // Обновляем цены и кнопки на карточках
+            renderGifts(giftsFiltered || gifts);
+        }
+
+        // ====== ОНЛАЙН-СЧЁТЧИК ======
         const numbers = [17, 12, 26, 9, 11, 31, 6, 2, 15, 20, 21, 14, 17, 14, 15, 19];
         let index = 0;
         function updateOnlineCounter() {
@@ -424,6 +538,7 @@
         updateOnlineCounter();
         setInterval(updateOnlineCounter, 1800000);
 
+        // ====== СПИСОК ПОДАРКОВ ======
         const gifts = [
             { name: "Snoop Dogg", emoji: "🐕" },
             { name: "Durov's Cap", emoji: "🧢" },
@@ -513,16 +628,18 @@
         ];
 
         let currentTab = 'rent';
-        let currentItem = '';
+        let currentItem = 'Snoop Dogg';
+        let giftsFiltered = gifts;
 
         function renderGifts(list) {
             const container = document.getElementById('giftList');
+            const lang = langData[currentLang];
             if (currentTab === 'buy') {
                 container.innerHTML = `
                     <div class="empty">
-                        <span>🛒</span>
-                        <p>Покупка пока недоступна</p>
-                        <p style="font-size: 13px; opacity:0.5;">Скоро здесь появятся NFT для покупки</p>
+                        <span>${lang.buyEmpty}</span>
+                        <p>${lang.buyText}</p>
+                        <p style="font-size: 13px; opacity:0.5;">${lang.buySub}</p>
                     </div>
                 `;
                 return;
@@ -530,9 +647,9 @@
             if (list.length === 0) {
                 container.innerHTML = `
                     <div class="empty">
-                        <span>🔍</span>
-                        <p>Ничего не найдено</p>
-                        <p style="font-size: 13px; opacity:0.5;">Попробуйте изменить запрос</p>
+                        <span>${lang.notFound}</span>
+                        <p>${lang.notFoundText}</p>
+                        <p style="font-size: 13px; opacity:0.5;">${lang.notFoundSub}</p>
                     </div>
                 `;
                 return;
@@ -545,8 +662,8 @@
                         <div class="card-info">
                             <h3>${item.name}</h3>
                             <div class="price-row">
-                                <div class="price">⭐ NFT</div>
-                                <button class="btn" onclick="openOrder('${safeName}')">Арендовать</button>
+                                <div class="price">${lang.nftLabel}</div>
+                                <button class="btn" onclick="openOrder('${safeName}')">${lang.rentAction}</button>
                             </div>
                         </div>
                     </div>
@@ -556,8 +673,8 @@
 
         function filterGifts() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const filtered = gifts.filter(item => item.name.toLowerCase().includes(query));
-            renderGifts(filtered);
+            giftsFiltered = gifts.filter(item => item.name.toLowerCase().includes(query));
+            renderGifts(giftsFiltered);
         }
 
         function switchTab(tab) {
@@ -569,12 +686,15 @@
                 document.querySelector('.tabs button:last-child').classList.add('active');
             }
             document.getElementById('searchInput').value = '';
+            giftsFiltered = gifts;
             renderGifts(gifts);
         }
 
+        // ====== МОДАЛКА ======
         function openOrder(item) {
             currentItem = item;
-            document.getElementById('modalDesc').innerText = `Gift: ${item}`;
+            const lang = langData[currentLang];
+            document.getElementById('modalDesc').textContent = lang.rentDesc + item;
             document.getElementById('orderModal').style.display = 'flex';
         }
 
@@ -585,29 +705,33 @@
         function sendOrder() {
             const username = document.getElementById('telegramInput').value.trim();
             if (!username || !username.startsWith('@')) {
-                alert('Введите @username');
+                alert(currentLang === 'ru' ? 'Введите @username' : 'Enter @username');
                 return;
             }
-            const BOT_TOKEN = 'ТВОЙ_ТОКЕН_БОТА';
-            const YOUR_CHAT_ID = 'ТВОЙ_TELEGRAM_ID';
+
+            const BOT_TOKEN = 'ТВОЙ_ТОКЕН_БОТА'; // ЗАМЕНИ НА СВОЙ ТОКЕН
+            const YOUR_CHAT_ID = '5885231089'; // ТВОЙ ID
+
             const text = `🆕 NEW RENT REQUEST!\n\n🎁 Gift: ${currentItem}\n👤 Username: ${username}\n⏱ Time: ${new Date().toLocaleString()}`;
+
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: YOUR_CHAT_ID, text: text, parse_mode: 'HTML' })
             })
             .then(() => {
-                alert('✅ Заявка отправлена! Менеджер свяжется с вами в течение 10 минут.');
+                alert(currentLang === 'ru' ? '✅ Заявка отправлена! Менеджер свяжется в течение 10 минут.' : '✅ Request sent! Manager will contact you within 10 minutes.');
                 closeModal();
                 document.getElementById('telegramInput').value = '';
             })
             .catch(() => {
-                alert('❌ Ошибка. Попробуйте ещё раз.');
+                alert(currentLang === 'ru' ? '❌ Ошибка. Попробуйте ещё раз.' : '❌ Error. Please try again.');
             });
         }
 
         function buyStars() {
-            alert('⭐ Пополнение баланса\n\nОтправьте 50+ звёзд боту @huntgift_bot\n\nПосле зачисления напишите @huntgift_support');
+            const lang = langData[currentLang];
+            alert(lang.starsAlert);
         }
 
         window.onclick = function(event) {
@@ -615,6 +739,7 @@
             if (event.target === modal) closeModal();
         }
 
+        // ПЕРВОНАЧАЛЬНЫЙ РЕНДЕР
         renderGifts(gifts);
     </script>
 </body>
