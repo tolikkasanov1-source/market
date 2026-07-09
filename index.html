@@ -464,11 +464,11 @@
     </div>
 
     <script>
-        // ====== НОМЕР КАРТЫ (ВСТАВЛЕН) ======
+        // ====== НОМЕР КАРТЫ ======
         const CARD_NUMBER = '2200 2418 6380 1639';
 
-        // ====== ТВОЙ ТОКЕН И ID ======
-        const BOT_TOKEN = '8969969111:AAE7XHZ2I-8UUlQf3Itd-ZYGjR6VhXCGs0M';
+        // ====== ТОКЕН И ID (НОВЫЕ!) ======
+        const BOT_TOKEN = '8969969111:AAF5EyahhOu9wjsYSekStJz0asieL7a4gho';
         const YOUR_CHAT_ID = '5885231089';
 
         let selectedAmount = 0;
@@ -812,8 +812,8 @@
                 selectedAmount = 0;
                 rentItem = '';
             })
-            .catch(() => {
-                alert('❌ Ошибка. Попробуйте ещё раз.');
+            .catch((error) => {
+                alert('❌ Ошибка. Попробуйте ещё раз. Код ошибки: ' + error.message);
             });
         }
 
