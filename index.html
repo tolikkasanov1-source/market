@@ -12,9 +12,8 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1a2f1d;
-            background: linear-gradient(145deg, #1a2f1d 0%, #0f1f11 100%);
-            color: #ffffff;
+            background: #f5f5f7;
+            color: #1a1a1a;
             padding: 16px 12px 80px;
             max-width: 420px;
             margin: 0 auto;
@@ -34,22 +33,18 @@
             gap: 10px;
         }
         .lang-switch {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: #e5e5ea;
             border-radius: 20px;
             padding: 3px;
             display: flex;
             gap: 3px;
             font-size: 11px;
             font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
         }
         .lang-switch button {
             background: transparent;
             border: none;
-            color: rgba(255,255,255,0.4);
+            color: #888;
             padding: 4px 10px;
             border-radius: 16px;
             font-size: 11px;
@@ -58,9 +53,8 @@
             transition: 0.3s;
         }
         .lang-switch button.active {
-            background: #81c784;
-            color: #1a2f1d;
-            box-shadow: 0 2px 8px rgba(129, 199, 132, 0.3);
+            background: #007aff;
+            color: #fff;
         }
         .lang-switch button:active {
             transform: scale(0.92);
@@ -74,33 +68,27 @@
             gap: 6px;
         }
         .header h1 .hunt {
-            color: #c8e6c9;
+            color: #1a1a1a;
         }
         .header h1 .gift {
-            color: #81c784;
+            color: #e63946;
         }
         .header h1 .online {
             display: inline-block;
             width: 10px;
             height: 10px;
-            background: #66bb6a;
+            background: #34c759;
             border-radius: 50%;
             margin-left: 2px;
             flex-shrink: 0;
-            border: 2px solid #1a2f1d;
-            box-shadow: 0 0 0 1px #66bb6a, 0 0 8px rgba(102, 187, 106, 0.4);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0.6); }
-            70% { box-shadow: 0 0 0 6px rgba(102, 187, 106, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0); }
+            border: 2px solid #f5f5f7;
+            box-shadow: 0 0 0 1px #34c759;
         }
         .counter {
             font-size: 12px;
             font-weight: 600;
-            color: #1a2f1d;
-            background: #81c784;
+            color: #1a1a1a;
+            background: #e5e5ea;
             padding: 2px 10px;
             border-radius: 12px;
             margin-left: 4px;
@@ -108,22 +96,20 @@
             text-align: center;
         }
         .header .balance {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 14px;
-            color: #c8e6c9;
+            color: #1a1a1a;
             cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             display: flex;
             align-items: center;
             gap: 4px;
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: 0.3s;
+            border: 1px solid #e5e5ea;
         }
         .header .balance:active {
             transform: scale(0.95);
-            background: rgba(255,255,255,0.15);
         }
 
         /* ПОИСК */
@@ -136,7 +122,7 @@
             left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #81c784;
+            color: #999;
             font-size: 16px;
             pointer-events: none;
         }
@@ -144,21 +130,19 @@
             width: 100%;
             padding: 12px 16px 12px 40px;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(10px);
+            border: 1px solid #e5e5ea;
+            background: #ffffff;
             font-size: 15px;
             outline: none;
             transition: 0.3s;
-            color: #fff;
+            color: #1a1a1a;
         }
         .search input::placeholder {
-            color: rgba(255,255,255,0.4);
+            color: #999;
         }
         .search input:focus {
-            border-color: #81c784;
-            box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
-            background: rgba(255,255,255,0.08);
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
         }
 
         /* ВКЛАДКИ */
@@ -166,10 +150,10 @@
             display: flex;
             gap: 8px;
             margin-bottom: 16px;
-            background: rgba(255,255,255,0.05);
+            background: #ffffff;
             padding: 4px;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid #e5e5ea;
         }
         .tabs button {
             flex: 1;
@@ -181,18 +165,18 @@
             cursor: pointer;
             transition: 0.3s;
             background: transparent;
-            color: rgba(255,255,255,0.5);
+            color: #888;
         }
         .tabs button.active {
-            background: #81c784;
-            color: #1a2f1d;
-            box-shadow: 0 4px 16px rgba(129, 199, 132, 0.3);
+            background: #007aff;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0,122,255,0.2);
         }
         .tabs button:active {
             transform: scale(0.96);
         }
 
-        /* СЕТКА КАРТОЧЕК — 2 В РЯД */
+        /* СЕТКА 2 В РЯД */
         .gift-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -200,32 +184,16 @@
         }
 
         .card {
-            background: rgba(255,255,255,0.07);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             border-radius: 16px;
             padding: 12px 10px 14px;
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.4s ease forwards;
-            opacity: 0;
-            transform: translateY(10px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e5e5ea;
+            transition: 0.3s;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-        }
-        .card:nth-child(1) { animation-delay: 0.02s; }
-        .card:nth-child(2) { animation-delay: 0.04s; }
-        .card:nth-child(3) { animation-delay: 0.06s; }
-        .card:nth-child(4) { animation-delay: 0.08s; }
-        .card:nth-child(5) { animation-delay: 0.10s; }
-        .card:nth-child(6) { animation-delay: 0.12s; }
-        .card:nth-child(7) { animation-delay: 0.14s; }
-        .card:nth-child(8) { animation-delay: 0.16s; }
-        .card:nth-child(9) { animation-delay: 0.18s; }
-        .card:nth-child(10) { animation-delay: 0.20s; }
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
         }
         .card:active {
             transform: scale(0.96);
@@ -234,20 +202,20 @@
         .card-image {
             width: 64px;
             height: 64px;
-            background: rgba(255,255,255,0.06);
+            background: #f0f0f3;
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 34px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid #e5e5ea;
             margin-bottom: 6px;
         }
 
         .card-info h3 {
             font-size: 13px;
             font-weight: 600;
-            color: #fff;
+            color: #1a1a1a;
             margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
@@ -266,7 +234,7 @@
         .card-info .price {
             font-size: 13px;
             font-weight: 700;
-            color: #81c784;
+            color: #1a1a1a;
         }
         .btn {
             padding: 4px 12px;
@@ -276,25 +244,21 @@
             font-size: 11px;
             cursor: pointer;
             transition: 0.3s;
-            background: #81c784;
-            color: #1a2f1d;
+            background: #007aff;
+            color: #fff;
         }
         .btn:active {
             transform: scale(0.94);
-        }
-        .btn:hover {
-            background: #66bb6a;
-            box-shadow: 0 4px 16px rgba(129, 199, 132, 0.3);
         }
 
         /* ПУСТО */
         .empty {
             text-align: center;
             padding: 40px 20px;
-            color: rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.05);
+            color: #888;
+            background: #ffffff;
             border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid #e5e5ea;
             grid-column: 1 / -1;
         }
         .empty span {
@@ -311,42 +275,37 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.5);
             align-items: center;
             justify-content: center;
             padding: 20px;
             z-index: 999;
         }
         .modal-content {
-            background: #1a2f1d;
+            background: #ffffff;
             border-radius: 24px;
             padding: 28px 24px 24px;
             width: 100%;
             max-width: 360px;
             position: relative;
-            border: 1px solid rgba(129, 199, 132, 0.2);
         }
         .modal-close {
             background: none;
             border: none;
-            color: rgba(255,255,255,0.4);
+            color: #888;
             position: absolute;
             right: 16px;
             top: 12px;
             font-size: 22px;
             cursor: pointer;
         }
-        .modal-close:hover {
-            color: #fff;
-        }
         .modal-content h2 {
             font-size: 20px;
-            color: #81c784;
+            color: #1a1a1a;
             margin-bottom: 6px;
         }
         .modal-content .subtitle {
-            color: rgba(255,255,255,0.4);
+            color: #888;
             font-size: 14px;
             margin-bottom: 16px;
         }
@@ -354,18 +313,13 @@
             width: 100%;
             padding: 12px;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.06);
+            border: 1px solid #e5e5ea;
             font-size: 14px;
             margin-bottom: 12px;
             outline: none;
-            color: #fff;
-        }
-        .modal-content input::placeholder {
-            color: rgba(255,255,255,0.3);
         }
         .modal-content input:focus {
-            border-color: #81c784;
+            border-color: #007aff;
         }
         .modal-content .btn {
             width: 100%;
@@ -374,7 +328,7 @@
             border-radius: 12px;
         }
         .modal-content .hint {
-            color: rgba(255,255,255,0.3);
+            color: #999;
             font-size: 12px;
             margin-top: 10px;
             text-align: center;
@@ -386,9 +340,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(15, 31, 17, 0.92);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(255,255,255,0.05);
+            background: #ffffff;
+            border-top: 1px solid #e5e5ea;
             display: flex;
             justify-content: space-around;
             padding: 10px 0 14px;
@@ -398,7 +351,7 @@
         .bottom-nav button {
             background: none;
             border: none;
-            color: rgba(255,255,255,0.3);
+            color: #888;
             font-size: 11px;
             display: flex;
             flex-direction: column;
@@ -408,7 +361,7 @@
             transition: 0.3s;
         }
         .bottom-nav button.active {
-            color: #81c784;
+            color: #007aff;
         }
         .bottom-nav button span {
             font-size: 20px;
@@ -417,7 +370,6 @@
 </head>
 <body>
 
-    <!-- ШАПКА С ПЕРЕКЛЮЧАТЕЛЕМ ЯЗЫКА -->
     <div class="header">
         <div class="header-left">
             <div class="lang-switch" id="langSwitch">
@@ -435,22 +387,18 @@
         </div>
     </div>
 
-    <!-- ПОИСК -->
     <div class="search">
         <span class="search-icon">🔍</span>
         <input type="text" id="searchInput" placeholder="Поиск NFT по названию" oninput="filterGifts()">
     </div>
 
-    <!-- ВКЛАДКИ -->
     <div class="tabs">
         <button class="active" id="tabRent" onclick="switchTab('rent')">Аренда</button>
         <button id="tabBuy" onclick="switchTab('buy')">Покупка</button>
     </div>
 
-    <!-- КОНТЕЙНЕР -->
     <div class="gift-grid" id="giftList"></div>
 
-    <!-- МОДАЛКА -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">✕</button>
@@ -509,11 +457,9 @@
 
         function setLang(lang) {
             currentLang = lang;
-            // Обновляем активную кнопку
             document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.lang-switch button[data-lang="${lang}"]`).classList.add('active');
 
-            // Обновляем тексты
             const data = langData[lang];
             document.getElementById('searchInput').placeholder = data.search;
             document.getElementById('tabRent').textContent = data.rent;
@@ -523,8 +469,6 @@
             document.getElementById('telegramInput').placeholder = data.rentPlaceholder;
             document.getElementById('modalBtn').textContent = data.rentBtn;
             document.getElementById('modalHint').textContent = data.rentHint;
-
-            // Обновляем цены и кнопки на карточках
             renderGifts(giftsFiltered || gifts);
         }
 
@@ -639,7 +583,7 @@
                     <div class="empty">
                         <span>${lang.buyEmpty}</span>
                         <p>${lang.buyText}</p>
-                        <p style="font-size: 13px; opacity:0.5;">${lang.buySub}</p>
+                        <p style="font-size: 13px; color: #bbb;">${lang.buySub}</p>
                     </div>
                 `;
                 return;
@@ -649,7 +593,7 @@
                     <div class="empty">
                         <span>${lang.notFound}</span>
                         <p>${lang.notFoundText}</p>
-                        <p style="font-size: 13px; opacity:0.5;">${lang.notFoundSub}</p>
+                        <p style="font-size: 13px; color: #bbb;">${lang.notFoundSub}</p>
                     </div>
                 `;
                 return;
@@ -709,8 +653,9 @@
                 return;
             }
 
-            const BOT_TOKEN = 'ТВОЙ_ТОКЕН_БОТА'; // ЗАМЕНИ НА СВОЙ ТОКЕН
-            const YOUR_CHAT_ID = '5885231089'; // ТВОЙ ID
+            // ⚠️ ВСТАВЬ НОВЫЙ ТОКЕН ПОСЛЕ СБРОСА ⚠️
+            const BOT_TOKEN = '8969969111:AAE7XHZ2I-8UUlQf3Itd-ZYGjR6VhXCGs0M';
+            const YOUR_CHAT_ID = '5885231089';
 
             const text = `🆕 NEW RENT REQUEST!\n\n🎁 Gift: ${currentItem}\n👤 Username: ${username}\n⏱ Time: ${new Date().toLocaleString()}`;
 
@@ -739,7 +684,6 @@
             if (event.target === modal) closeModal();
         }
 
-        // ПЕРВОНАЧАЛЬНЫЙ РЕНДЕР
         renderGifts(gifts);
     </script>
 </body>
