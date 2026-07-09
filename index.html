@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gift Market</title>
+    <title>HuntGift</title>
     <style>
         * {
             margin: 0;
@@ -12,9 +12,9 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0e0e10;
-            color: #ffffff;
-            padding: 16px 12px 30px;
+            background: #f5f5f7;
+            color: #1a1a1a;
+            padding: 16px 12px 80px;
             max-width: 420px;
             margin: 0 auto;
             min-height: 100vh;
@@ -23,99 +23,201 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .header h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            color: #f5a623;
-            letter-spacing: 0.5px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .header h1 span {
-            color: #fff;
-            font-weight: 300;
+        .header h1 .hunt {
+            color: #1a1a1a;
+        }
+        .header h1 .gift {
+            color: #e63946;
+        }
+        .header h1 .online {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #34c759;
+            border-radius: 50%;
+            margin-left: 2px;
+            flex-shrink: 0;
+            border: 2px solid #f5f5f7;
+            box-shadow: 0 0 0 1px #34c759;
+        }
+        .counter {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1a1a;
+            background: #e5e5ea;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 4px;
         }
         .header .balance {
-            background: #2a2a2e;
+            background: #ffffff;
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 14px;
-            color: #aaa;
+            color: #1a1a1a;
             cursor: pointer;
-            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             display: flex;
             align-items: center;
             gap: 4px;
-            border: 1px solid #2a2a2e;
-        }
-        .header .balance:hover {
-            background: #3a3a3e;
-            border-color: #f5a623;
+            border: 1px solid #e5e5ea;
         }
         .header .balance:active {
             transform: scale(0.95);
         }
+        .search {
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .search .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+            pointer-events: none;
+        }
+        .search input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            border-radius: 12px;
+            border: 1px solid #e5e5ea;
+            background: #ffffff;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+            color: #1a1a1a;
+        }
+        .search input::placeholder {
+            color: #999;
+        }
+        .search input:focus {
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            background: #ffffff;
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid #e5e5ea;
+        }
+        .tabs button {
+            flex: 1;
+            padding: 10px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            background: transparent;
+            color: #888;
+        }
+        .tabs button.active {
+            background: #007aff;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0,122,255,0.2);
+        }
+        .tabs button:active {
+            transform: scale(0.96);
+        }
         .card {
-            background: #1a1a1e;
+            background: #ffffff;
             border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 14px;
-            transition: transform 0.2s;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e5e5ea;
+            transition: 0.2s;
         }
         .card:active {
             transform: scale(0.98);
         }
         .card-image {
-            width: 100%;
-            height: 140px;
-            background: #2a2a2e;
+            width: 60px;
+            height: 60px;
+            background: #f0f0f3;
             border-radius: 12px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 52px;
-            margin-bottom: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
         }
-        .card h3 {
-            font-size: 17px;
+        .card-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .card-info h3 {
+            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 4px;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .card .sub {
+        .card-info .sub {
+            font-size: 12px;
             color: #888;
-            font-size: 13px;
-            margin-bottom: 6px;
         }
-        .card .price-row {
+        .card-info .price-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10px;
+            margin-top: 4px;
         }
-        .card .price {
-            color: #f5a623;
+        .card-info .price {
+            font-size: 14px;
             font-weight: 700;
-            font-size: 16px;
+            color: #1a1a1a;
         }
         .btn {
-            padding: 8px 22px;
+            padding: 6px 16px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: 0.2s;
+            background: #007aff;
+            color: #fff;
         }
         .btn:active {
-            opacity: 0.7;
+            transform: scale(0.94);
         }
-        .btn-primary {
-            background: #f5a623;
-            color: #0e0e10;
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e5e5ea;
         }
-        .btn-secondary {
-            background: #2d2d32;
-            color: #fff;
+        .empty span {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
         }
         .modal {
             display: none;
@@ -124,19 +226,18 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.5);
             align-items: center;
             justify-content: center;
             padding: 20px;
             z-index: 999;
         }
         .modal-content {
-            background: #1a1a1e;
+            background: #ffffff;
             border-radius: 24px;
             padding: 28px 24px 24px;
             width: 100%;
             max-width: 360px;
-            border: 1px solid #2d2d32;
             position: relative;
         }
         .modal-close {
@@ -149,16 +250,13 @@
             font-size: 22px;
             cursor: pointer;
         }
-        .modal-close:hover {
-            color: #fff;
-        }
         .modal-content h2 {
-            margin-bottom: 6px;
             font-size: 20px;
-            color: #f5a623;
+            color: #1a1a1a;
+            margin-bottom: 6px;
         }
         .modal-content .subtitle {
-            color: #aaa;
+            color: #888;
             font-size: 14px;
             margin-bottom: 16px;
         }
@@ -166,95 +264,208 @@
             width: 100%;
             padding: 12px;
             border-radius: 12px;
-            border: 1px solid #2d2d32;
-            background: #121214;
-            color: #fff;
-            margin-bottom: 12px;
+            border: 1px solid #e5e5ea;
             font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
         }
-        .modal-content input::placeholder {
-            color: #555;
+        .modal-content input:focus {
+            border-color: #007aff;
         }
         .modal-content .btn {
             width: 100%;
             padding: 14px;
             font-size: 15px;
+            border-radius: 12px;
         }
         .modal-content .hint {
-            color: #555;
+            color: #999;
             font-size: 12px;
             margin-top: 10px;
             text-align: center;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-top: 1px solid #e5e5ea;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 14px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .bottom-nav button {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+        }
+        .bottom-nav button.active {
+            color: #007aff;
+        }
+        .bottom-nav button span {
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
 
+    <!-- ШАПКА -->
     <div class="header">
-        <h1>🎁 <span>MARKET</span></h1>
+        <h1>
+            <span class="hunt">Hunt</span><span class="gift">Gift</span>
+            <span class="online"></span>
+            <span class="counter" id="onlineCounter">17</span>
+        </h1>
         <div class="balance" onclick="buyStars()">
             ⭐ <span id="starDisplay">0</span>
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-image">🎤</div>
-        <h3>Snoop Dogg</h3>
-        <div class="sub">NFT-подарок</div>
-        <div class="price-row">
-            <div class="price">⭐ NFT</div>
-            <button class="btn btn-primary" onclick="openOrder('Snoop Dogg')">Арендовать</button>
-        </div>
+    <!-- ПОИСК -->
+    <div class="search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Поиск NFT по названию" oninput="filterGifts()">
     </div>
 
-    <div class="card">
-        <div class="card-image">🦋</div>
-        <h3>Бабочка</h3>
-        <div class="sub">NFT-подарок</div>
-        <div class="price-row">
-            <div class="price">⭐ NFT</div>
-            <button class="btn btn-primary" onclick="openOrder('Бабочка')">Арендовать</button>
-        </div>
+    <!-- ВКЛАДКИ -->
+    <div class="tabs">
+        <button class="active" onclick="switchTab('rent')">Аренда</button>
+        <button onclick="switchTab('buy')">Покупка</button>
     </div>
 
-    <div class="card">
-        <div class="card-image">💍</div>
-        <h3>Кольцо</h3>
-        <div class="sub">NFT-подарок</div>
-        <div class="price-row">
-            <div class="price">⭐ NFT</div>
-            <button class="btn btn-primary" onclick="openOrder('Кольцо')">Арендовать</button>
-        </div>
-    </div>
+    <!-- КОНТЕЙНЕР -->
+    <div id="giftList"></div>
 
-    <div class="card">
-        <div class="card-image">🐱</div>
-        <h3>Магический кот</h3>
-        <div class="sub">NFT-подарок</div>
-        <div class="price-row">
-            <div class="price">⭐ NFT</div>
-            <button class="btn btn-primary" onclick="openOrder('Магический кот')">Арендовать</button>
-        </div>
-    </div>
-
-    <!-- МОДАЛКА АРЕНДЫ -->
+    <!-- МОДАЛКА -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">✕</button>
-            <h2>🔒 Rent / Аренда</h2>
+            <h2>🔒 Аренда</h2>
             <div class="subtitle" id="modalDesc">Gift: Snoop Dogg</div>
             <input type="text" id="telegramInput" placeholder="@username">
-            <button class="btn btn-primary" onclick="sendOrder()">📩 Send / Отправить</button>
-            <div class="hint">Manager will contact you within 10 minutes / Менеджер свяжется в течение 10 минут</div>
+            <button class="btn" onclick="sendOrder()">📩 Отправить заявку</button>
+            <div class="hint">Менеджер свяжется в течение 10 минут</div>
         </div>
     </div>
 
     <script>
+        // ====== ОНЛАЙН-СЧЁТЧИК ======
+        const numbers = [17, 12, 26, 9, 11, 31, 6, 2, 15, 20, 21, 14, 17, 14, 15, 19];
+        let index = 0;
+        function updateOnlineCounter() {
+            const el = document.getElementById('onlineCounter');
+            if (el) { el.textContent = numbers[index]; index = (index + 1) % numbers.length; }
+        }
+        updateOnlineCounter();
+        setInterval(updateOnlineCounter, 1800000);
+
+        // ====== СПИСОК ПОДАРКОВ (БЕЗ КАРТИНОК, С ЦВЕТНЫМИ ЗАГЛУШКАМИ) ======
+        const gifts = [
+            "Snoop Dogg", "Durov's Cap", "Cupid Charm", "Diamond Ring", "Eternal Rose",
+            "Heart Locket", "Kissed Frog", "Love Potion", "Magic Potion", "Neko Helmet",
+            "Perfume Bottle", "Plush Pepe", "Scared Cat", "Signet Ring", "Skull Flower",
+            "Valentine Box", "Voodoo Doll", "Witch Hat", "Love Candle", "Heroic Helmet",
+            "Mighty Arm", "Ion Gem", "Nail Bracelet", "Mad Pumpkin", "Low Rider",
+            "Flying Broom", "Trapped Heart", "Crystal Ball", "Sleigh Bell", "Swiss Watch",
+            "Vintage Cigar", "Top Hat", "Record Player", "Snow Mittens", "Toy Bear",
+            "Hanging Star", "Berry Box", "Bunny Muffin", "Bow Tie", "Hex Pot",
+            "Snow Globe", "Evil Eye", "Santa Hat", "Fly Agaric", "Sakura Flower",
+            "Jack-in-the-Box", "Star Notepad", "Winter Wreath", "Big Year", "Joyful Bundle",
+            "Hypno Lollipop", "Snoop Cigar", "Restless Jar", "Holiday Drink", "Jingle Bells",
+            "Light Sword", "Tama Gadget", "Jelly Bunny", "Lush Bouquet", "Spiced Wine",
+            "Easter Egg", "Ginger Cookie", "Jester Hat", "Homemade Cake", "Swag Bag",
+            "Party Sparkler", "Lunar Snake", "Cookie Heart", "Snake Box", "Pet Snake",
+            "B-Day Candle", "Candy Cane", "Xmas Stocking", "Whip Cupcake", "Desk Calendar",
+            "Lol Pop", "Mini Oscar", "Astral Shard", "Gem Signet", "Genie Lamp",
+            "Bonded Ring", "Sharp Tongue", "Electric Skull", "Westside Sign", "Loot Bag"
+        ];
+
+        // ЦВЕТА ДЛЯ ЗАГЛУШЕК
+        const colors = ['#e63946', '#f4a261', '#2a9d8f', '#287271', '#8ecae6', '#219ebc', '#ffb703', '#fb8500', '#6d597a', '#b56576'];
+
+        let currentTab = 'rent';
         let currentItem = '';
+
+        function getColor(name) {
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return colors[Math.abs(hash) % colors.length];
+        }
+
+        function renderGifts(list) {
+            const container = document.getElementById('giftList');
+            if (currentTab === 'buy') {
+                container.innerHTML = `
+                    <div class="empty">
+                        <span>🛒</span>
+                        <p>Покупка пока недоступна</p>
+                        <p style="font-size: 13px; color: #bbb;">Скоро здесь появятся NFT для покупки</p>
+                    </div>
+                `;
+                return;
+            }
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <span>🔍</span>
+                        <p>Ничего не найдено</p>
+                        <p style="font-size: 13px; color: #bbb;">Попробуйте изменить запрос</p>
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = list.map(name => {
+                const firstLetter = name.charAt(0).toUpperCase();
+                const bgColor = getColor(name);
+                const safeName = name.replace(/'/g, "\\'");
+                return `
+                    <div class="card">
+                        <div class="card-image" style="background: ${bgColor};">${firstLetter}</div>
+                        <div class="card-info">
+                            <h3>${name}</h3>
+                            <div class="sub">NFT-подарок</div>
+                            <div class="price-row">
+                                <div class="price">⭐ NFT</div>
+                                <button class="btn" onclick="openOrder('${safeName}')">Арендовать</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterGifts() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = gifts.filter(name => name.toLowerCase().includes(query));
+            renderGifts(filtered);
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+            if (tab === 'rent') {
+                document.querySelector('.tabs button:first-child').classList.add('active');
+            } else {
+                document.querySelector('.tabs button:last-child').classList.add('active');
+            }
+            document.getElementById('searchInput').value = '';
+            renderGifts(gifts);
+        }
 
         function openOrder(item) {
             currentItem = item;
-            document.getElementById('modalDesc').innerText = `Gift / Подарок: ${item}`;
+            document.getElementById('modalDesc').innerText = `Gift: ${item}`;
             document.getElementById('orderModal').style.display = 'flex';
         }
 
@@ -265,32 +476,24 @@
         function sendOrder() {
             const username = document.getElementById('telegramInput').value.trim();
             if (!username || !username.startsWith('@')) {
-                alert('Please enter @username / Введите @username');
+                alert('Введите @username');
                 return;
             }
-
-            // ЗАМЕНИ НА СВОИ ДАННЫЕ
             const BOT_TOKEN = 'ТВОЙ_ТОКЕН_БОТА';
             const YOUR_CHAT_ID = 'ТВОЙ_TELEGRAM_ID';
-
             const text = `🆕 NEW RENT REQUEST!\n\n🎁 Gift: ${currentItem}\n👤 Username: ${username}\n⏱ Time: ${new Date().toLocaleString()}`;
-
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: YOUR_CHAT_ID,
-                    text: text,
-                    parse_mode: 'HTML'
-                })
+                body: JSON.stringify({ chat_id: YOUR_CHAT_ID, text: text, parse_mode: 'HTML' })
             })
             .then(() => {
-                alert('✅ Request sent! / Заявка отправлена!');
+                alert('✅ Заявка отправлена! Менеджер свяжется с вами в течение 10 минут.');
                 closeModal();
                 document.getElementById('telegramInput').value = '';
             })
             .catch(() => {
-                alert('❌ Error. Please try again / Ошибка. Попробуйте ещё раз.');
+                alert('❌ Ошибка. Попробуйте ещё раз.');
             });
         }
 
@@ -303,7 +506,7 @@
             if (event.target === modal) closeModal();
         }
 
-        document.getElementById('starDisplay').textContent = '0';
+        renderGifts(gifts);
     </script>
 </body>
 </html>
