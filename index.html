@@ -5,17 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HuntGift</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f7;
-            color: #1a1a1a;
+            background: #1a2f1d;
+            background: linear-gradient(145deg, #1a2f1d 0%, #0f1f11 100%);
+            color: #ffffff;
             padding: 16px 12px 80px;
             max-width: 420px;
             margin: 0 auto;
             min-height: 100vh;
         }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        /* ШАПКА */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-top: 4px;
+        }
         .header h1 {
             font-size: 22px;
             font-weight: 700;
@@ -24,49 +36,70 @@
             align-items: center;
             gap: 6px;
         }
-        .header h1 .hunt { color: #1a1a1a; }
-        .header h1 .gift { color: #e63946; }
+        .header h1 .hunt {
+            color: #c8e6c9;
+        }
+        .header h1 .gift {
+            color: #81c784;
+        }
         .header h1 .online {
             display: inline-block;
             width: 10px;
             height: 10px;
-            background: #34c759;
+            background: #66bb6a;
             border-radius: 50%;
             margin-left: 2px;
             flex-shrink: 0;
-            border: 2px solid #f5f5f7;
-            box-shadow: 0 0 0 1px #34c759;
+            border: 2px solid #1a2f1d;
+            box-shadow: 0 0 0 1px #66bb6a, 0 0 8px rgba(102, 187, 106, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0.6); }
+            70% { box-shadow: 0 0 0 6px rgba(102, 187, 106, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0); }
         }
         .counter {
             font-size: 12px;
             font-weight: 600;
-            color: #1a1a1a;
-            background: #e5e5ea;
-            padding: 2px 8px;
+            color: #1a2f1d;
+            background: #81c784;
+            padding: 2px 10px;
             border-radius: 12px;
             margin-left: 4px;
+            min-width: 28px;
+            text-align: center;
         }
         .header .balance {
-            background: #ffffff;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 14px;
-            color: #1a1a1a;
+            color: #c8e6c9;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             display: flex;
             align-items: center;
             gap: 4px;
-            border: 1px solid #e5e5ea;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: 0.3s;
         }
-        .header .balance:active { transform: scale(0.95); }
-        .search { margin-bottom: 16px; position: relative; }
+        .header .balance:active {
+            transform: scale(0.95);
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* ПОИСК */
+        .search {
+            margin-bottom: 16px;
+            position: relative;
+        }
         .search .search-icon {
             position: absolute;
             left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #999;
+            color: #81c784;
             font-size: 16px;
             pointer-events: none;
         }
@@ -74,26 +107,32 @@
             width: 100%;
             padding: 12px 16px 12px 40px;
             border-radius: 12px;
-            border: 1px solid #e5e5ea;
-            background: #ffffff;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
             font-size: 15px;
             outline: none;
-            transition: 0.2s;
-            color: #1a1a1a;
+            transition: 0.3s;
+            color: #fff;
         }
-        .search input::placeholder { color: #999; }
+        .search input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
         .search input:focus {
-            border-color: #007aff;
-            box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+            border-color: #81c784;
+            box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
+            background: rgba(255,255,255,0.08);
         }
+
+        /* ВКЛАДКИ */
         .tabs {
             display: flex;
             gap: 8px;
             margin-bottom: 16px;
-            background: #ffffff;
+            background: rgba(255,255,255,0.05);
             padding: 4px;
             border-radius: 12px;
-            border: 1px solid #e5e5ea;
+            border: 1px solid rgba(255,255,255,0.06);
         }
         .tabs button {
             flex: 1;
@@ -103,83 +142,131 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.3s;
             background: transparent;
-            color: #888;
+            color: rgba(255,255,255,0.5);
         }
         .tabs button.active {
-            background: #007aff;
-            color: #fff;
-            box-shadow: 0 2px 8px rgba(0,122,255,0.2);
+            background: #81c784;
+            color: #1a2f1d;
+            box-shadow: 0 4px 16px rgba(129, 199, 132, 0.3);
         }
-        .tabs button:active { transform: scale(0.96); }
+        .tabs button:active {
+            transform: scale(0.96);
+        }
+
+        /* СЕТКА КАРТОЧЕК — 2 В РЯД */
+        .gift-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
         .card {
-            background: #ffffff;
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(10px);
             border-radius: 16px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
+            padding: 12px 10px 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.4s ease forwards;
+            opacity: 0;
+            transform: translateY(10px);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border: 1px solid #e5e5ea;
-            transition: 0.2s;
+            text-align: center;
         }
-        .card:active { transform: scale(0.98); }
+        .card:nth-child(1) { animation-delay: 0.02s; }
+        .card:nth-child(2) { animation-delay: 0.04s; }
+        .card:nth-child(3) { animation-delay: 0.06s; }
+        .card:nth-child(4) { animation-delay: 0.08s; }
+        .card:nth-child(5) { animation-delay: 0.10s; }
+        .card:nth-child(6) { animation-delay: 0.12s; }
+        .card:nth-child(7) { animation-delay: 0.14s; }
+        .card:nth-child(8) { animation-delay: 0.16s; }
+        .card:nth-child(9) { animation-delay: 0.18s; }
+        .card:nth-child(10) { animation-delay: 0.20s; }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card:active {
+            transform: scale(0.96);
+        }
+
         .card-image {
-            width: 60px;
-            height: 60px;
-            background: #f0f0f3;
-            border-radius: 12px;
-            flex-shrink: 0;
+            width: 64px;
+            height: 64px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 34px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 6px;
         }
-        .card-info { flex: 1; min-width: 0; }
+
         .card-info h3 {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 600;
-            color: #1a1a1a;
+            color: #fff;
             margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 140px;
         }
-        .card-info .sub { font-size: 12px; color: #888; }
+
         .card-info .price-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 6px;
             margin-top: 4px;
+            flex-wrap: wrap;
         }
         .card-info .price {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #81c784;
         }
         .btn {
-            padding: 6px 16px;
+            padding: 4px 12px;
             border: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
-            transition: 0.2s;
-            background: #007aff;
-            color: #fff;
+            transition: 0.3s;
+            background: #81c784;
+            color: #1a2f1d;
         }
-        .btn:active { transform: scale(0.94); }
+        .btn:active {
+            transform: scale(0.94);
+        }
+        .btn:hover {
+            background: #66bb6a;
+            box-shadow: 0 4px 16px rgba(129, 199, 132, 0.3);
+        }
+
+        /* ПУСТО */
         .empty {
             text-align: center;
             padding: 40px 20px;
-            color: #888;
-            background: #ffffff;
+            color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.05);
             border-radius: 16px;
-            border: 1px solid #e5e5ea;
+            border: 1px solid rgba(255,255,255,0.05);
+            grid-column: 1 / -1;
         }
-        .empty span { font-size: 48px; display: block; margin-bottom: 12px; }
+        .empty span {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        /* МОДАЛКА */
         .modal {
             display: none;
             position: fixed;
@@ -187,37 +274,42 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
             padding: 20px;
             z-index: 999;
         }
         .modal-content {
-            background: #ffffff;
+            background: #1a2f1d;
             border-radius: 24px;
             padding: 28px 24px 24px;
             width: 100%;
             max-width: 360px;
             position: relative;
+            border: 1px solid rgba(129, 199, 132, 0.2);
         }
         .modal-close {
             background: none;
             border: none;
-            color: #888;
+            color: rgba(255,255,255,0.4);
             position: absolute;
             right: 16px;
             top: 12px;
             font-size: 22px;
             cursor: pointer;
         }
+        .modal-close:hover {
+            color: #fff;
+        }
         .modal-content h2 {
             font-size: 20px;
-            color: #1a1a1a;
+            color: #81c784;
             margin-bottom: 6px;
         }
         .modal-content .subtitle {
-            color: #888;
+            color: rgba(255,255,255,0.4);
             font-size: 14px;
             margin-bottom: 16px;
         }
@@ -225,12 +317,19 @@
             width: 100%;
             padding: 12px;
             border-radius: 12px;
-            border: 1px solid #e5e5ea;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.06);
             font-size: 14px;
             margin-bottom: 12px;
             outline: none;
+            color: #fff;
         }
-        .modal-content input:focus { border-color: #007aff; }
+        .modal-content input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        .modal-content input:focus {
+            border-color: #81c784;
+        }
         .modal-content .btn {
             width: 100%;
             padding: 14px;
@@ -238,18 +337,21 @@
             border-radius: 12px;
         }
         .modal-content .hint {
-            color: #999;
+            color: rgba(255,255,255,0.3);
             font-size: 12px;
             margin-top: 10px;
             text-align: center;
         }
+
+        /* НИЖНЕЕ МЕНЮ */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: #ffffff;
-            border-top: 1px solid #e5e5ea;
+            background: rgba(15, 31, 17, 0.92);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255,255,255,0.05);
             display: flex;
             justify-content: space-around;
             padding: 10px 0 14px;
@@ -259,16 +361,21 @@
         .bottom-nav button {
             background: none;
             border: none;
-            color: #888;
+            color: rgba(255,255,255,0.3);
             font-size: 11px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 2px;
             cursor: pointer;
+            transition: 0.3s;
         }
-        .bottom-nav button.active { color: #007aff; }
-        .bottom-nav button span { font-size: 20px; }
+        .bottom-nav button.active {
+            color: #81c784;
+        }
+        .bottom-nav button span {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -294,7 +401,7 @@
         <button onclick="switchTab('buy')">Покупка</button>
     </div>
 
-    <div id="giftList"></div>
+    <div class="gift-grid" id="giftList"></div>
 
     <div class="modal" id="orderModal">
         <div class="modal-content">
@@ -415,7 +522,7 @@
                     <div class="empty">
                         <span>🛒</span>
                         <p>Покупка пока недоступна</p>
-                        <p style="font-size: 13px; color: #bbb;">Скоро здесь появятся NFT для покупки</p>
+                        <p style="font-size: 13px; opacity:0.5;">Скоро здесь появятся NFT для покупки</p>
                     </div>
                 `;
                 return;
@@ -425,7 +532,7 @@
                     <div class="empty">
                         <span>🔍</span>
                         <p>Ничего не найдено</p>
-                        <p style="font-size: 13px; color: #bbb;">Попробуйте изменить запрос</p>
+                        <p style="font-size: 13px; opacity:0.5;">Попробуйте изменить запрос</p>
                     </div>
                 `;
                 return;
@@ -437,7 +544,6 @@
                         <div class="card-image">${item.emoji}</div>
                         <div class="card-info">
                             <h3>${item.name}</h3>
-                            <div class="sub">NFT-подарок</div>
                             <div class="price-row">
                                 <div class="price">⭐ NFT</div>
                                 <button class="btn" onclick="openOrder('${safeName}')">Арендовать</button>
